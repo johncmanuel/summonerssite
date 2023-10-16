@@ -5,6 +5,8 @@
 	"type": "commonjs",
 	"devDependencies": {
 		"@types/node": "^16.11.10",
+		"concurrently": "^8.2.1",
+		"cross-env": "^7.0.3",
 		"nodemon": "^3.0.1",
 		"ts-node": "10.7.0",
 		"typescript": "4.5.2"
@@ -17,8 +19,10 @@
 		"typeorm": "0.3.17"
 	},
 	"scripts": {
-		"start": "ts-node src/index.ts",
-		"dev": "nodemon --exec ts-node src/index.ts",
-		"typeorm": "typeorm-ts-node-commonjs"
+		"start": "cross-env NODE_ENV=production ts-node src/index.ts",
+		"startDev": "nodemon --exec ts-node src/index.ts",
+		"dev": "concurrently \"npm run startDev\" \"cd client && npm start\" ",
+		"typeorm": "typeorm-ts-node-commonjs",
+		"build": "cd client && npm run build"
 	}
 }

@@ -10,10 +10,17 @@ AppDataSource.initialize()
 		const app = express();
 		app.use(bodyParser.json());
 
+		if (process.env.NODE_ENV === "production") {
+			app.use(express.static("client/build"));
+			app.use(express.static("client/public"));
+		}
+
+		const PORT = process.env.PORT || 3001;
+
 		// register express routes from defined application routes
 		Routes.forEach((route) => {
 			(app as any)[route.method](
-				route.route,
+				`/api${route.route}`,
 				(req: Request, res: Response, next: Function) => {
 					const result = new (route.controller as any)()[
 						route.action
@@ -31,11 +38,8 @@ AppDataSource.initialize()
 			);
 		});
 
-		// setup express app here
-		// ...
-
 		// start express server
-		app.listen(3000);
-		console.log("Express server has started on port 3000.");
+		app.listen(PORT);
+		console.log(`Express server has started on port ${PORT}.`);
 	})
 	.catch((error) => console.log(error));

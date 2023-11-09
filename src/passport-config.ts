@@ -3,6 +3,7 @@ import { Strategy as LocalStrategy } from "passport-local";
 import { User } from "./entity/User";
 import { AppDataSource } from "./data-source";
 import { Repository } from "typeorm";
+import bcrypt from "bcrypt";
 
 // Stores the relevant user info for
 // session purposes
@@ -18,13 +19,19 @@ passport.use(
 	new LocalStrategy(async (username, password, done) => {
 		try {
 			const user = await userRepository.findOne({
-				where: { username, password },
+				where: { username },
 			});
+			const isValidPassword = await bcrypt.compare(
+				password,
+				user.password
+			);
+
+			if (!isValidPassword)
+				throw new Error("Incorrect username or password");
 			if (!user) {
-				return done(null, false, {
-					message: "Incorrect username or password.",
-				});
+				throw new Error("Incorrect username or password");
 			}
+
 			const userSession: UserSession = {
 				username,
 				password,
@@ -32,7 +39,9 @@ passport.use(
 			};
 			return done(null, userSession);
 		} catch (error) {
-			return done(null, false);
+			return done(null, false, {
+				message: "Incorrect username or password.",
+			});
 		}
 	})
 );

@@ -3,6 +3,7 @@ import passport from "./passport-config";
 import { User } from "./entity/User";
 import { AppDataSource } from "./data-source";
 import { Repository } from "typeorm";
+import bcrypt from "bcrypt";
 
 const authRouter = express.Router();
 
@@ -34,17 +35,42 @@ authRouter.post(
 		try {
 			const userRepo: Repository<User> =
 				AppDataSource.getRepository(User);
-			const username = req.body.username;
-			// TODO: hash and salt password
-			const newUser = userRepo.create({
-				username: req.body.username,
-				password: req.body.password,
+
+			const username: string = req.body.username;
+			const password: string = req.body.password;
+
+			const existingUser = await userRepo.findOne({
+				where: { username: username },
 			});
+
+			if (existingUser) {
+				throw new Error("User already exists");
+			}
+
+			// NOTE: There will be significant performance costs when hashing
+			// passwords.
+			// https://www.npmjs.com/package/bcrypt#a-note-on-rounds
+			const saltRounds = 10;
+			const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+			const newUser = userRepo.create({
+				username: username,
+				password: hashedPassword,
+			});
+
 			await userRepo.save(newUser);
-			res.status(200).json({ success: true, user: username });
+
+			res.status(200).json({
+				success: true,
+				user: username,
+				error: null,
+			});
 		} catch (err) {
-			// return next(err)
-			res.status(500).json({ success: false, user: null });
+			res.status(500).json({
+				success: false,
+				user: null,
+				error: err.message,
+			});
 		}
 	}
 );

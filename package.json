@@ -4,7 +4,12 @@
 	"description": "Awesome project developed with TypeORM.",
 	"type": "commonjs",
 	"devDependencies": {
+		"@types/cookie-parser": "^1.4.6",
+		"@types/cors": "^2.8.15",
+		"@types/express-session": "^1.17.9",
 		"@types/node": "^16.11.10",
+		"@types/passport": "^1.0.14",
+		"@types/passport-local": "^1.0.37",
 		"concurrently": "^8.2.1",
 		"cross-env": "^7.0.3",
 		"nodemon": "^3.0.1",
@@ -13,8 +18,13 @@
 	},
 	"dependencies": {
 		"body-parser": "^1.19.1",
+		"cookie-parser": "^1.4.6",
+		"cors": "^2.8.5",
 		"express": "^4.17.2",
+		"express-session": "^1.17.3",
 		"mysql": "^2.14.1",
+		"passport": "^0.6.0",
+		"passport-local": "^1.0.0",
 		"reflect-metadata": "^0.1.13",
 		"typeorm": "0.3.17"
 	},

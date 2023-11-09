@@ -13,8 +13,9 @@ export class User {
 	@Column()
 	password: string;
 
-	@Column()
-	email: string;
+	// Taking out the email attribute for now
+	// @Column()
+	// email: string;
 
 	@OneToMany(() => Post, (post) => post.user)
 	posts: Post[];

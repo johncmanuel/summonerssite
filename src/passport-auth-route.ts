@@ -4,17 +4,39 @@ import { User } from "./entity/User";
 import { AppDataSource } from "./data-source";
 import { Repository } from "typeorm";
 import bcrypt from "bcrypt";
+// import type { AuthenticateCallback } from "passport";
 
 const authRouter = express.Router();
 
 // Logs an existing user in
-authRouter.post(
-	"/login",
-	passport.authenticate("local"),
-	(req: Request, res: Response) => {
-		res.status(200).json({ authenticated: true });
-	}
-);
+// Code used:
+// https://stackoverflow.com/a/15711502
+authRouter.post("/login", (req: Request, res: Response, next: NextFunction) => {
+	// TODO:
+	// Assign type to the callback function using
+	// passport.AuthenticateCallback
+	passport.authenticate("local", (err, user, info) => {
+		if (err) {
+			return next(err); // will generate a 500 error
+		}
+		if (!user) {
+			return res.send({
+				success: false,
+				error: "Invalid username or password.",
+			});
+		}
+		req.login(user, (loginErr) => {
+			if (loginErr) {
+				return next(loginErr);
+			}
+			return res.send({
+				success: true,
+				error: null,
+			});
+		});
+	})(req, res, next);
+	// res.status(200).json({ authenticated: true });
+});
 
 // Logs out the user
 authRouter.post(
@@ -22,8 +44,8 @@ authRouter.post(
 	(req: Request, res: Response, next: NextFunction) => {
 		req.logout((err) => {
 			// if (err) return next(err);
-			if (err) res.status(500).json({ success: false, error: err });
-			else res.status(200).json({ success: true, error: null });
+			if (err) res.send({ success: false, error: err });
+			else res.send({ success: true, error: null });
 		});
 	}
 );
@@ -77,9 +99,8 @@ authRouter.post(
 
 // Checks if the user is authenticated
 authRouter.get("/isauth", (req: Request, res: Response) => {
-	if (req.isAuthenticated())
-		res.status(200).json({ success: true, user: req.user });
-	else res.status(401).json({ success: false, user: null });
+	if (req.isAuthenticated()) res.send({ success: true, user: req.user });
+	else res.send({ success: false, user: null });
 });
 
 export default authRouter;

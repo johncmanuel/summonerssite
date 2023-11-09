@@ -40,7 +40,7 @@ passport.use(
 			return done(null, userSession);
 		} catch (error) {
 			return done(null, false, {
-				message: "Incorrect username or password.",
+				message: "error, something went wrong during local strategy",
 			});
 		}
 	})

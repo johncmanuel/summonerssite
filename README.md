@@ -10,16 +10,18 @@ Database: MySQL
 
 ## Setup
 
-First, install MySQL and set it up for use. Afterwards, fill in the following information in `src/data-source.ts`:
+First, install MySQL and set it up for use. Then, create a database (you can use any name you want). Keep track of the port number and the username/password used to access the database. 
+
+Afterwards, fill in the following information in `src/data-source.ts`:
 
 ```typescript
 
 export const AppDataSource = new DataSource({
     // ...
-    host: "localhost",
+    	host: "localhost",
 	port: <your port number>,
-	username: "root",
-	password: "password",
+	username: <your username>,
+	password: <your password>,
 	database: <name of your database>,
     // ...
 })
@@ -28,6 +30,6 @@ export const AppDataSource = new DataSource({
 
 ## Running the Project
 
-First, run `npm run packages`
+First, run `npm install`
 
 Then, run `npm run dev` to run the project locally.

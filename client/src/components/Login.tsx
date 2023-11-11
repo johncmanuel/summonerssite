@@ -29,7 +29,7 @@ const Login: React.FC = () => {
 			const response = await httpClient.post("/login", formData);
 			const data = response.data;
 			console.log("login", data);
-			if (data.authenticated) {
+			if (data.success) {
 				login({ username: formData.username });
 				navigate("/posts");
 			}

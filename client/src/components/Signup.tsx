@@ -28,7 +28,7 @@ const SignUp: React.FC = () => {
 			if (data.success) {
 				const res = await httpClient.post("/login", formData);
 				const resData = res.data;
-				if (resData.authenticated) {
+				if (resData.success) {
 					login({ username: formData.username });
 					navigate("/posts");
 				}

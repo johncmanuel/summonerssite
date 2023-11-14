@@ -22,6 +22,7 @@
 		"body-parser": "^1.19.1",
 		"cookie-parser": "^1.4.6",
 		"cors": "^2.8.5",
+		"dotenv": "^16.3.1",
 		"express": "^4.17.2",
 		"express-session": "^1.17.3",
 		"mysql": "^2.14.1",
@@ -35,6 +36,6 @@
 		"startDev": "nodemon --exec ts-node src/index.ts",
 		"dev": "concurrently \"npm run startDev\" \"cd client && npm start\" ",
 		"typeorm": "typeorm-ts-node-commonjs",
-		"build": "cd client && npm run build"
+		"build": "cd client && npm run build && npm run start"
 	}
 }

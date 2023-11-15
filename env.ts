@@ -1,5 +1,7 @@
 import * as dotenv from "dotenv";
-dotenv.config();
+dotenv.config({
+	path: "./client/.env",
+});
 
 export const PORT = parseInt(process.env.PORT || "3001");
 

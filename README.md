@@ -12,7 +12,7 @@ Database: MySQL
 
 First, install MySQL and set it up for use. Then, create a database (you can use any name you want). Keep track of the port number and the username/password used to access the database.
 
-Then, create a `.env` file. Copy and paste the content from `.env.example` and insert your values.
+Then, create a `.env` file in `client`. Copy and paste the content from `.env.example` and insert your values.
 
 > NOTE: When using PlanetScale as your main MySQL provider, make sure you click "General" when selecting options for "Connect with" after clicking "Connect". See below for visual guidance.
 

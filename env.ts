@@ -18,3 +18,5 @@ export const DB_PASSWORD = process.env.DB_PASSWORD || "password";
 export const DB_USERNAME = process.env.DB_USERNAME || "root";
 
 export const DB_DATABASE = process.env.DB_DATABASE;
+
+export const SECRET = process.env.SECRET;

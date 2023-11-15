@@ -11,8 +11,6 @@ import {
 	DB_DATABASE,
 } from "../env";
 
-console.log(DB_DATABASE);
-
 export const AppDataSource = new DataSource({
 	type: "mysql",
 	port: DB_PORT,

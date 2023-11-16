@@ -37,6 +37,6 @@
 		"startDev": "nodemon --exec ts-node src/index.ts",
 		"dev": "concurrently \"npm run startDev\" \"cd client && npm start\" ",
 		"typeorm": "typeorm-ts-node-commonjs",
-		"build": "cd client && npm run build && npm run start"
+		"build": "cd client && npm run build"
 	}
 }

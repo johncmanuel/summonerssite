@@ -6,17 +6,22 @@ import session from "express-session";
 import passport from "./passport-config";
 import cors from "cors";
 import authRouter from "./passport-auth-route";
-import { PORT, CLIENT_URL } from "../env";
+import { PORT, CLIENT_URL, SECRET } from "../env";
 import cookieParser from "cookie-parser";
+
+// I chose MemoryStore for session stores so I do not need to
+// rely on additional software for setup such as databases or Redis.
+// Though, this may change as this web application grows in complexity
+// and traffic.
+//
+// See more available session stores with express-session:
+// https://www.npmjs.com/package/express-session#compatible-session-stores
+import MemoryStore from "memorystore";
 
 AppDataSource.initialize()
 	.then(async () => {
 		const app = express();
 
-		// if (process.env.NODE_ENV === "production") {
-		// 	app.use(express.static("client/build"));
-		// 	app.use(express.static("client/public"));
-		// }
 		app.use(
 			cors({
 				origin: CLIENT_URL,
@@ -25,13 +30,22 @@ AppDataSource.initialize()
 		);
 
 		app.use(bodyParser.json());
+
+		// 1 day in miliseconds
+		const expiredMiliseconds = 86400000;
+
 		app.use(
 			session({
-				secret: "your-secret-key",
-				// resave: false, // don't save session if unmodified
-				// saveUninitialized: false, // don't create session until something stored
+				secret: SECRET,
 				resave: true,
 				saveUninitialized: true,
+				cookie: {
+					secure: true,
+					maxAge: expiredMiliseconds,
+				},
+				store: new (MemoryStore(session))({
+					checkPeriod: expiredMiliseconds,
+				}),
 			})
 		);
 		app.use(cookieParser());

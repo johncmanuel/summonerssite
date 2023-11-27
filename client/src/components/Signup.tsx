@@ -29,7 +29,10 @@ const SignUp: React.FC = () => {
 				const res = await httpClient.post("/login", formData);
 				const resData = res.data;
 				if (resData.success) {
-					login({ username: formData.username });
+					login({
+						username: formData.username,
+						id: parseInt(resData.user.id),
+					});
 					navigate("/posts");
 				}
 			}

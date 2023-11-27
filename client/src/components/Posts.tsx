@@ -1,6 +1,9 @@
 import { useEffect } from "react";
+import { useAuth } from "./AuthContext";
 
 export const Posts = () => {
+	const { user } = useAuth();
+
 	useEffect(() => {
 		const getPosts = async () => {
 			console.log("get posts here");

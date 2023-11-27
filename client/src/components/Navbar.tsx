@@ -7,7 +7,6 @@ import Logout from "./Logout";
 
 export const Navbar = () => {
 	const { user } = useAuth();
-	console.log(user);
 	return (
 		<div>
 			<nav>

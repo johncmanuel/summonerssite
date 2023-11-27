@@ -30,7 +30,8 @@
 		"passport": "^0.6.0",
 		"passport-local": "^1.0.0",
 		"reflect-metadata": "^0.1.13",
-		"typeorm": "0.3.17"
+		"typeorm": "0.3.17",
+		"uuid": "^9.0.1"
 	},
 	"scripts": {
 		"start": "cross-env NODE_ENV=production ts-node src/index.ts",

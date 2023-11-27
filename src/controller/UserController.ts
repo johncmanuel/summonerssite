@@ -21,16 +21,6 @@ export class UserController {
 		return user;
 	}
 
-	async save(request: Request, response: Response, next: NextFunction) {
-		const { username, password, email } = request.body;
-		const user = Object.assign(new User(), {
-			username,
-			password,
-			email,
-		});
-		return this.userRepository.save(user);
-	}
-
 	async remove(request: Request, response: Response, next: NextFunction) {
 		const id = parseInt(request.params.id);
 		let userToRemove = await this.userRepository.findOneBy({ id });

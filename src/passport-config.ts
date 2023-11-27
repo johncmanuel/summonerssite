@@ -4,14 +4,7 @@ import { User } from "./entity/User";
 import { AppDataSource } from "./data-source";
 import { Repository } from "typeorm";
 import bcrypt from "bcrypt";
-
-// Stores the relevant user info for
-// session purposes
-interface UserSession {
-	id: number;
-	username: string;
-	password: string;
-}
+import { UserSession } from "./types/session";
 
 const userRepository: Repository<User> = AppDataSource.getRepository(User);
 
@@ -46,7 +39,7 @@ passport.use(
 	})
 );
 
-passport.serializeUser((user: UserSession, done) => {
+passport.serializeUser((user: User, done) => {
 	console.log("serializeUser", user);
 	done(null, user.id);
 });

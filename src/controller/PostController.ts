@@ -32,10 +32,14 @@ export class PostController {
 	}
 
 	async save(request: Request, response: Response, next: NextFunction) {
+		if (request.isUnauthenticated()) {
+			return "not authenticated";
+		}
+
 		const { title, description, datePosted } = request.body;
-		const id = parseInt(request.params.id);
+		const userId = parseInt(request.params.id);
 		const user = await this.userRepository.findOne({
-			where: { id },
+			where: { id: userId },
 		});
 		const post = Object.assign(new Post(), {
 			title,
@@ -47,12 +51,16 @@ export class PostController {
 	}
 
 	async remove(request: Request, response: Response, next: NextFunction) {
+		if (request.isUnauthenticated()) {
+			return "not authenticated";
+		}
+
 		const id = parseInt(request.params.id);
 		const postId = parseInt(request.params.postId);
 		const user = await this.userRepository.findOne({
 			where: { id },
 		});
-		let postToRemove = await this.postRepository.findOneBy({
+		const postToRemove = await this.postRepository.findOneBy({
 			id: postId,
 			user,
 		});

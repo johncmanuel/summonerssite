@@ -29,8 +29,13 @@ authRouter.post("/login", (req: Request, res: Response, next: NextFunction) => {
 			if (loginErr) {
 				return next(loginErr);
 			}
+			// req.user = {...req.user, }
 			return res.send({
 				success: true,
+				user: {
+					username: user.username,
+					id: user.id,
+				},
 				error: null,
 			});
 		});
@@ -84,7 +89,10 @@ authRouter.post(
 
 			res.status(200).json({
 				success: true,
-				user: username,
+				user: {
+					username: username,
+					id: newUser.id,
+				},
 				error: null,
 			});
 		} catch (err) {
@@ -99,8 +107,15 @@ authRouter.post(
 
 // Checks if the user is authenticated
 authRouter.get("/isauth", (req: Request, res: Response) => {
-	if (req.isAuthenticated()) res.send({ success: true, user: req.user });
-	else res.send({ success: false, user: null });
+	if (req.isAuthenticated()) {
+		res.send({
+			success: true,
+			user: {
+				username: req.user.username,
+				id: req.user.id,
+			},
+		});
+	} else res.send({ success: false, user: null });
 });
 
 export default authRouter;

@@ -16,7 +16,20 @@ import cookieParser from "cookie-parser";
 //
 // See more available session stores with express-session:
 // https://www.npmjs.com/package/express-session#compatible-session-stores
-import MemoryStore from "memorystore";
+import createMemoryStore from "memorystore";
+
+declare global {
+	namespace Express {
+		interface User {
+			id: number;
+			username: string;
+			password: string;
+		}
+		// export interface Request {
+		// 	user?: User;
+		// }
+	}
+}
 
 AppDataSource.initialize()
 	.then(async () => {
@@ -33,17 +46,18 @@ AppDataSource.initialize()
 
 		// 1 day in miliseconds
 		const expiredMiliseconds = 86400000;
+		const MemoryStore = createMemoryStore(session);
 
 		app.use(
 			session({
 				secret: SECRET,
 				resave: true,
 				saveUninitialized: true,
-				cookie: {
-					secure: true,
-					maxAge: expiredMiliseconds,
-				},
-				store: new (MemoryStore(session))({
+				// cookie: {
+				// 	// secure: true,
+				// 	maxAge: expiredMiliseconds,
+				// },
+				store: new MemoryStore({
 					checkPeriod: expiredMiliseconds,
 				}),
 			})

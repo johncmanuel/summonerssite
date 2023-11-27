@@ -30,7 +30,7 @@ const Login: React.FC = () => {
 			const data = response.data;
 			console.log("login", data);
 			if (data.success) {
-				login({ username: formData.username });
+				login({ username: formData.username, id: parseInt(data.id) });
 				navigate("/posts");
 			}
 		} catch (error) {

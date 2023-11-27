@@ -6,10 +6,7 @@ import React, {
 	useEffect,
 } from "react";
 import httpClient from "../httpClient";
-
-interface User {
-	username: string;
-}
+import { User } from "../types/User";
 
 interface AuthContextType {
 	user: User | null;
@@ -30,7 +27,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 		const isUserAuth = async () => {
 			try {
 				const res = await httpClient.get("/isauth");
-				if (res.data.success) setUser(res.data.user.username);
+				console.log("res.data", res.data);
+				if (res.data.success) {
+					console.log("res.data.user", res.data.user);
+					setUser({
+						username: res.data.user.username as string,
+						id: res.data.user.id,
+					});
+				}
 			} catch (error) {
 				setUser(null);
 			}

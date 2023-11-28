@@ -69,6 +69,12 @@ AppDataSource.initialize()
 
 		app.use("/api", authRouter);
 
+		// Helps Render.com check if the server responds back before
+		// deployment
+		app.get("/health", (req: Request, res: Response) => {
+			res.status(200).json({ message: "hello world" });
+		});
+
 		// register express routes from defined application routes
 		Routes.forEach((route) => {
 			(app as any)[route.method](

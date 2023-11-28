@@ -114,8 +114,9 @@ authRouter.get("/isauth", (req: Request, res: Response) => {
 				username: req.user.username,
 				id: req.user.id,
 			},
+			error: null,
 		});
-	} else res.send({ success: false, user: null });
+	} else res.send({ success: false, user: null, error: "Invalid request." });
 });
 
 export default authRouter;

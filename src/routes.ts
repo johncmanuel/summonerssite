@@ -53,6 +53,12 @@ export const Routes = [
 		controller: PostController,
 		action: "remove",
 	},
+	{
+		method: "post",
+		route: "/users/:id/post",
+		controller: PostController,
+		action: "create",
+	},
 	/******************** Comment ********************/
 	// The user's id will be provided in the request body for all endpoints.
 	{

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "../HomePage/AuthContext";
 
 export const Posts = () => {
 	const { user } = useAuth();
